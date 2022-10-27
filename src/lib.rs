@@ -3,23 +3,25 @@ use std::{sync::Arc, ops::Deref};
 use rand::Rng;
 use std::sync::RwLock;
 
-struct Scene {
-    cells: Arc<RwLock<Vec<Cell>>>,
-    capacity: u16,
+const CELLS: usize = 25; 
+
+#[derive(PartialEq, PartialOrd)]
+pub enum Directions {
+    North,
+    South,
+    East,
+    West,
 }
 
-impl Default for Scene {
-    fn default() -> Self {
-        Self { cells: Default::default(), capacity: 25 }
-    }
+pub struct Scene {
+    cells: Arc<RwLock<Vec<Cell>>>,
 }
 
 impl Scene {
     fn new() -> Scene {
-        let scene = Scene::default();
-        let cells = Arc::new(RwLock::new(Vec::with_capacity(scene.capacity.into())));
+        let cells = Arc::new(RwLock::new(Vec::with_capacity(CELLS)));
 
-        Scene { cells, capacity: scene.capacity }
+        Scene { cells }
     }
 
     fn create_maze() -> Scene {
@@ -30,6 +32,10 @@ impl Scene {
 
     fn choose_index(&self) -> u16 {
         todo!()
+    }
+
+    fn choose_next(&self) {
+        //choose from random spaces in the immediate neighbouring cells
     }
 
     fn delete_cell(&self, index: usize) {
@@ -75,6 +81,10 @@ impl Cell {
 
     fn get_index(&self, scene: Scene) -> u16 {
         todo!()
+    }
+
+    fn cell_move(&self, direction: Directions) {
+
     }
 }
 
