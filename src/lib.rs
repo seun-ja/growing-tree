@@ -1,5 +1,6 @@
 use std::{sync::Arc, ops::Deref};
 
+use matrix::{prelude::Conventional, Element};
 use rand::Rng;
 use std::sync::RwLock;
 
@@ -7,10 +8,10 @@ const CELLS: usize = 25;
 
 #[derive(PartialEq, PartialOrd)]
 pub enum Directions {
-    North,
-    South,
-    East,
-    West,
+    North = 1,
+    South = 2,
+    East = 3,
+    West = 4,
 }
 
 pub struct Scene {
@@ -36,6 +37,8 @@ impl Scene {
 
     fn choose_next(&self) {
         //choose from random spaces in the immediate neighbouring cells
+        let spaces: Vec<Directions> = Vec::new();
+
     }
 
     fn delete_cell(&self, index: usize) {
@@ -69,7 +72,14 @@ impl Scene {
     }
 }
 
+#[derive(Copy, Clone, PartialEq)]
 struct Cell (u16, u16);
+
+impl Element for Cell {
+    fn zero() -> Self {
+        Cell(0, 0)
+    }
+}
 
 impl Cell {
     fn new(scene_height: u16) -> Cell {
@@ -92,4 +102,8 @@ fn generate_num(max: u16) -> u16 {
     let num: u16 = rand::thread_rng().gen_range(0..max);
 
     num
+}
+
+fn initiate_matrix (size: usize, values: Vec<Cell>) -> Conventional<Cell> {
+    Conventional::from_vec(size, values)
 }
